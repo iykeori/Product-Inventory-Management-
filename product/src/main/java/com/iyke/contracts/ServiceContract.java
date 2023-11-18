@@ -1,4 +1,4 @@
-package com.iyke.service;
+package com.iyke.contracts;
 
 import java.util.List;
 import java.util.Optional;

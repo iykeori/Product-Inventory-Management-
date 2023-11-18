@@ -1,5 +1,6 @@
 package com.iyke.bean;
 
+import java.util.Date;
 import java.util.UUID;
 
 public class Product {
@@ -9,26 +10,33 @@ public class Product {
     private double sellingPrice;
     private double costPrice; 
     private int stock;
+    private String manufacturer;
+    private Date created;
+    private Date updated;
 
     public Product(){
-        this(UUID.randomUUID(), null, null, 0.0, 0.0, 0);
+        this(UUID.randomUUID(), null, null, 0.0, 0.0, 0,null, null, null);
     }
-    public Product(UUID id, String name, String category, double sellingPrice, double costPrice, int stock){
+    public Product(UUID id, String name, String category, double sellingPrice, double costPrice, int stock, String manufacturer, Date created, Date updated){
         this.id = id;
         this.name = name;
         this.category = category;
         this.sellingPrice = sellingPrice;
         this.costPrice = costPrice;
         this.stock = stock;
+        this.created = created;
+        this.updated = updated;
+
+        
     }
 
     //getters and setters
     public UUID getId() {
         return id;
     }
-    // public void setId(UUID id) {
-    //     this.id = id;
-    // }
+    public void setId(UUID id) {
+        this.id = id;
+    }
     public String getName() {
         return name;
     }
@@ -69,13 +77,37 @@ public class Product {
         this.stock = stock;
     }
 
-    //tostring
-    @Override
-    public String toString() {
-        return "Product [id=" + id + "\n name=" + name + "\n category=" + category + "\n sellingPrice=" + sellingPrice
-                + "\n costPrice=" + costPrice + "\n stock=" + stock + "]";
+    public Date getCreated() {
+        return created;
     }
 
+    public void setCreated(Date created) {
+        this.created = created;
+    }
+
+    public Date getUpdated() {
+        return updated;
+    }
+
+    public void setUpdated(Date updated) {
+        this.updated = updated;
+    }
+    
+    public String getManufacturer() {
+        return manufacturer;
+    }
+
+    public void setManufacturer(String manufacturer) {
+        this.manufacturer = manufacturer;
+    }
+
+     //tostring
+    @Override
+    public String toString() {
+        return "Product [id=" + id + ", name=" + name + ", category=" + category + ", sellingPrice=" + sellingPrice
+                + ", costPrice=" + costPrice + ", stock=" + stock + ", manufacturer=" + manufacturer + ", created="
+                + created + ", updated=" + updated + "]";
+    }
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -89,9 +121,11 @@ public class Product {
         temp = Double.doubleToLongBits(costPrice);
         result = prime * result + (int) (temp ^ (temp >>> 32));
         result = prime * result + stock;
+        result = prime * result + ((manufacturer == null) ? 0 : manufacturer.hashCode());
+        result = prime * result + ((created == null) ? 0 : created.hashCode());
+        result = prime * result + ((updated == null) ? 0 : updated.hashCode());
         return result;
     }
-
     @Override
     public boolean equals(Object obj) {
         if (this == obj)
@@ -121,6 +155,21 @@ public class Product {
         if (Double.doubleToLongBits(costPrice) != Double.doubleToLongBits(other.costPrice))
             return false;
         if (stock != other.stock)
+            return false;
+        if (manufacturer == null) {
+            if (other.manufacturer != null)
+                return false;
+        } else if (!manufacturer.equals(other.manufacturer))
+            return false;
+        if (created == null) {
+            if (other.created != null)
+                return false;
+        } else if (!created.equals(other.created))
+            return false;
+        if (updated == null) {
+            if (other.updated != null)
+                return false;
+        } else if (!updated.equals(other.updated))
             return false;
         return true;
     }
