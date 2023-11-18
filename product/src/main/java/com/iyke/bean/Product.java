@@ -1,4 +1,4 @@
-package main.java.com.iyke.bean;
+package com.iyke.bean;
 
 import java.util.UUID;
 
@@ -21,6 +21,7 @@ public class Product {
         this.costPrice = costPrice;
         this.stock = stock;
     }
+
     //getters and setters
     public UUID getId() {
         return id;
@@ -31,39 +32,50 @@ public class Product {
     public String getName() {
         return name;
     }
+
     public void setName(String name) {
         this.name = name;
     }
+
     public String getCategory() {
         return category;
     }
+
     public void setCategory(String category) {
         this.category = category;
     }
+
     public double getSellingPrice() {
         return sellingPrice;
     }
+
     public void setSellingPrice(double sellingPrice) {
         this.sellingPrice = sellingPrice;
     }
+
     public double getCostPrice() {
         return costPrice;
     }
+
     public void setCostPrice(double costPrice) {
         this.costPrice = costPrice;
     }
+
     public int getStock() {
         return stock;
     }
+
     public void setStock(int stock) {
         this.stock = stock;
     }
+
     //tostring
     @Override
     public String toString() {
         return "Product [id=" + id + "\n name=" + name + "\n category=" + category + "\n sellingPrice=" + sellingPrice
                 + "\n costPrice=" + costPrice + "\n stock=" + stock + "]";
     }
+
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -79,6 +91,7 @@ public class Product {
         result = prime * result + stock;
         return result;
     }
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj)
@@ -111,9 +124,5 @@ public class Product {
             return false;
         return true;
     }
-
-    
-    
-
     
 }
