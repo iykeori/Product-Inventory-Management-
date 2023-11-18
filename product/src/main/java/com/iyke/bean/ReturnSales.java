@@ -1,5 +1,5 @@
 package com.iyke.bean;
 
-public class Returned {
+public class ReturnSales {
     
 }
