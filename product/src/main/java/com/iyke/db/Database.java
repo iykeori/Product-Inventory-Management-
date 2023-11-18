@@ -9,9 +9,9 @@ import java.util.UUID;
 
 public abstract class Database {
     //Connection Configurations
-    private static final String JDBC_URL = "jdbc:mysql://localhost:3306/fintech";
-  private static final String USERNAME = "root";
-  private static final String PASSWORD = "";
+    private static final String JDBC_URL = "jdbc:mysql://localhost:3306/inventory";
+    private static final String USERNAME = "root";
+    private static final String PASSWORD = "";
 
   //SQL connection object
   private Connection connection;

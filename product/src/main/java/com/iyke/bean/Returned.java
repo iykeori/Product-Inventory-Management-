@@ -1,4 +1,4 @@
-package main.java.com.iyke.bean;
+package com.iyke.bean;
 
 public class Returned {
     

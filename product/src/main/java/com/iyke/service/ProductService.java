@@ -38,7 +38,7 @@ public class ProductService implements ServiceContract<Product, UUID> {
         oldProduct.setCategory(product.getCategory());
         oldProduct.setCostPrice(product.getCostPrice());
         oldProduct.setSellingPrice(product.getSellingPrice());
-        oldProduct.setStock(product.getStock());
+        oldProduct.setstockCount(product.getstockCount());
         oldProduct.setManufacturer(product.getManufacturer());
         return repo.add(oldProduct);
     }

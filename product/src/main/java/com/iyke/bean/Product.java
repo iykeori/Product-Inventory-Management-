@@ -9,7 +9,7 @@ public class Product {
     private String category;
     private double sellingPrice;
     private double costPrice; 
-    private int stock;
+    private int stockCount;
     private String manufacturer;
     private Date created;
     private Date updated;
@@ -17,13 +17,13 @@ public class Product {
     public Product(){
         this(UUID.randomUUID(), null, null, 0.0, 0.0, 0,null, null, null);
     }
-    public Product(UUID id, String name, String category, double sellingPrice, double costPrice, int stock, String manufacturer, Date created, Date updated){
+    public Product(UUID id, String name, String category, double sellingPrice, double costPrice, int stockCount, String manufacturer, Date created, Date updated){
         this.id = id;
         this.name = name;
         this.category = category;
         this.sellingPrice = sellingPrice;
         this.costPrice = costPrice;
-        this.stock = stock;
+        this.stockCount = stockCount;
         this.created = created;
         this.updated = updated;
 
@@ -69,12 +69,12 @@ public class Product {
         this.costPrice = costPrice;
     }
 
-    public int getStock() {
-        return stock;
+    public int getstockCount() {
+        return stockCount;
     }
 
-    public void setStock(int stock) {
-        this.stock = stock;
+    public void setstockCount(int stockCount) {
+        this.stockCount = stockCount;
     }
 
     public Date getCreated() {
@@ -105,7 +105,7 @@ public class Product {
     @Override
     public String toString() {
         return "Product [id=" + id + ", name=" + name + ", category=" + category + ", sellingPrice=" + sellingPrice
-                + ", costPrice=" + costPrice + ", stock=" + stock + ", manufacturer=" + manufacturer + ", created="
+                + ", costPrice=" + costPrice + ", stockCount=" + stockCount + ", manufacturer=" + manufacturer + ", created="
                 + created + ", updated=" + updated + "]";
     }
     @Override
@@ -120,7 +120,7 @@ public class Product {
         result = prime * result + (int) (temp ^ (temp >>> 32));
         temp = Double.doubleToLongBits(costPrice);
         result = prime * result + (int) (temp ^ (temp >>> 32));
-        result = prime * result + stock;
+        result = prime * result + stockCount;
         result = prime * result + ((manufacturer == null) ? 0 : manufacturer.hashCode());
         result = prime * result + ((created == null) ? 0 : created.hashCode());
         result = prime * result + ((updated == null) ? 0 : updated.hashCode());
@@ -154,7 +154,7 @@ public class Product {
             return false;
         if (Double.doubleToLongBits(costPrice) != Double.doubleToLongBits(other.costPrice))
             return false;
-        if (stock != other.stock)
+        if (stockCount != other.stockCount)
             return false;
         if (manufacturer == null) {
             if (other.manufacturer != null)
