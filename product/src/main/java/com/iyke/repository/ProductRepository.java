@@ -62,7 +62,7 @@ public class ProductRepository extends Database implements Repository<Product, U
     public Optional<Product> findBy(UUID id) {
         try {
             String sql = "SELECT * FROM product WHERE product.id = ?";
-            return this.fetch(sql, id);
+            return this.fetch(sql, id.toString());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -75,7 +75,7 @@ public class ProductRepository extends Database implements Repository<Product, U
         if (product.isPresent()) {
         try {
             String sql = "DELETE FROM product WHERE product.id = ?";
-            int result = postQuery(sql, id);
+            int result = postQuery(sql, id.toString());
             if (result != -1 && result > 0) {
             return product;
             }

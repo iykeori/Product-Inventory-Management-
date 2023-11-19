@@ -12,13 +12,13 @@ public class Sales {
     private Date updated;
 
     public Sales(){
-        this(UUID.randomUUID(), null, 0, 0.0, null, null);
+        this(UUID.randomUUID(), null, 0, null, null);
     }
-    public Sales(UUID id, Product product, int quantity, double totalPrice, Date created, Date updated){
+    public Sales(UUID id, Product product, int quantity, Date created, Date updated){
         this.id = id;
         this.product = product;
         this.quantity = quantity;
-        this.totalPrice = totalPrice;
+        //this.totalPrice = product.getSellingPrice() * quantity;
         this.created = created;
         this.updated = updated;   
     }
