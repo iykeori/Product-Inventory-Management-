@@ -18,7 +18,6 @@ public class Sales {
         this.id = id;
         this.product = product;
         this.quantity = quantity;
-        //this.totalPrice = product.getSellingPrice() * quantity;
         this.created = created;
         this.updated = updated;   
     }

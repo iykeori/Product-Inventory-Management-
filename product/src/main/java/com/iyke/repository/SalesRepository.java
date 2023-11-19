@@ -10,17 +10,14 @@ import java.util.UUID;
 import com.iyke.bean.Product;
 import com.iyke.bean.Sales;
 import com.iyke.db.Database;
-import com.iyke.service.ProductService;
 
 public class SalesRepository extends Database implements Repository<Sales, UUID> {
 
     private ResultSet resultSet;
     private ProductRepository productRepo;
-    private ProductService productService;
 
     public SalesRepository(){
         productRepo = new ProductRepository();
-        productService = new ProductService();
     }
 
 
@@ -28,14 +25,10 @@ public class SalesRepository extends Database implements Repository<Sales, UUID>
     public Optional<Sales> add(Sales sale) {
         String sql = "";
         int inserted = -1;
-        // if(findBy(sale.getId()).isPresent())){
-        //     sql = "UPDATE "
-        // }
         if (sale.getProduct().getstockCount() >= sale.getQuantity()) {
             sale.getProduct().setstockCount(sale.getProduct().getstockCount() - sale.getQuantity());
             //update product
             Optional<Product> prod = productRepo.add(sale.getProduct());
-            //Optional<Product> prod = productService.update(sale.getProduct().getId(), sale.getProduct());
             //check if update was sucessfull before proceeding
             if(prod.isPresent()){
                 sql = "INSERT INTO sales (id, productId, quantity, totalPrice) VALUES (?,?,?,?)";
