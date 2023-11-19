@@ -109,20 +109,20 @@ public class SalesRepository extends Database implements Repository<Sales, UUID>
 
     //fetch
     private Optional<Sales> fetch(String sql, Object value) throws SQLException {
-    resultSet = getQuery(sql, value.toString());
-    if (resultSet.next()) {
-      Sales sale = new Sales();
+        resultSet = getQuery(sql, value.toString());
+        if (resultSet.next()) {
+        Sales sale = new Sales();
 
-      sale.setId(UUID.fromString(resultSet.getString(1)));
-      sale.setProduct(productRepo.findBy(UUID.fromString(resultSet.getString(2))).get());
-      sale.setQuantity(resultSet.getInt(3));
-      sale.setTotalPrice(resultSet.getDouble(4));
-      sale.setCreated(resultSet.getDate(5));
-      sale.setUpdated(resultSet.getDate(6));
+        sale.setId(UUID.fromString(resultSet.getString(1)));
+        sale.setProduct(productRepo.findBy(UUID.fromString(resultSet.getString(2))).get());
+        sale.setQuantity(resultSet.getInt(3));
+        sale.setTotalPrice(resultSet.getDouble(4));
+        sale.setCreated(resultSet.getDate(5));
+        sale.setUpdated(resultSet.getDate(6));
 
-      return Optional.ofNullable(sale);
+        return Optional.ofNullable(sale);
+        }
+        return Optional.empty();
     }
-    return Optional.empty();
-  }
     
 }

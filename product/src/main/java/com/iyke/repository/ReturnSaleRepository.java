@@ -1,6 +1,7 @@
 package com.iyke.repository;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -8,7 +9,6 @@ import java.util.UUID;
 
 import com.iyke.bean.Product;
 import com.iyke.bean.ReturnSales;
-import com.iyke.bean.Sales;
 import com.iyke.db.Database;
 
 public class ReturnSaleRepository extends Database implements Repository<ReturnSales, UUID>{
@@ -74,14 +74,50 @@ public class ReturnSaleRepository extends Database implements Repository<ReturnS
 
     @Override
     public Optional<ReturnSales> findBy(UUID id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findBy'");
+        try {
+            String sql = "SELECT * FROM returnsales WHERE sales.id = ?";
+            return this.fetch(sql, id.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return Optional.empty();
     }
 
     @Override
     public Optional<ReturnSales> remove(UUID id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'remove'");
+        Optional<ReturnSales> rsale = findBy(id);
+        if(rsale.isPresent()){
+            try {
+                String sql = "DELETE FROM returnsales WHERE sales.id = ?";
+                int result = postQuery(sql, id.toString());
+                if (result != -1 && result > 0){
+                    return rsale;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return Optional.empty();
+    }
+
+    //fetch
+    private Optional<ReturnSales> fetch(String sql, Object value) throws SQLException {
+        resultSet = getQuery(sql, value.toString());
+
+        if (resultSet.next()) {
+            ReturnSales returnSales = new ReturnSales();
+
+            returnSales.setId(UUID.fromString(resultSet.getString(1)));
+            returnSales.setProduct(productRepo.findBy(UUID.fromString(resultSet.getString(2))).get());
+            returnSales.setSale(salesRepo.findBy(UUID.fromString(resultSet.getString(3))).get());
+            returnSales.setQuantity(resultSet.getInt(4));
+            returnSales.setTotalPrice(resultSet.getDouble(5));
+            returnSales.setCreated(resultSet.getDate(6));
+            returnSales.setUpdated(resultSet.getDate(7));
+
+            return Optional.ofNullable(returnSales);
+        }
+        return Optional.empty();
     }
     
 }

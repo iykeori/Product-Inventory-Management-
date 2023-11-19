@@ -23,8 +23,12 @@ public class ProductRepository extends Database implements Repository<Product, U
             sql = "UPDATE product SET name=?, category=?, sellingPrice=?, costPrice=?, stockCount=?, manufacturer=?";
             inserted = postQuery(sql, product.getName(), product.getCategory(), product.getSellingPrice(), product.getCostPrice(), product.getstockCount(), product.getManufacturer());
         }else{
-            sql = "INSERT INTO product (id, name, category, sellingPrice, costPrice, stockCount, manufacturer) VALUES (?,?,?,?,?,?,?)";
-            inserted = postQuery(sql,product.getId().toString(), product.getName(), product.getCategory(), product.getSellingPrice(), product.getCostPrice(), product.getstockCount(), product.getManufacturer());
+            if(findByName(product.getName()).isPresent() && findByCategory(product.getCategory()).isPresent() && findByManufacturer(product.getManufacturer()).isPresent()){
+                System.out.println("\nProduct Exist and can't be entered twice. Product id: "+ product.getId());
+            }else{
+                sql = "INSERT INTO product (id, name, category, sellingPrice, costPrice, stockCount, manufacturer) VALUES (?,?,?,?,?,?,?)";
+                inserted = postQuery(sql,product.getId().toString(), product.getName(), product.getCategory(), product.getSellingPrice(), product.getCostPrice(), product.getstockCount(), product.getManufacturer());
+            }
         }
         if(inserted != -1) return Optional.ofNullable(findBy(product.getId()).get());
 
