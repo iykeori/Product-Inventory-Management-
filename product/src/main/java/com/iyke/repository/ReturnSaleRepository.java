@@ -29,14 +29,19 @@ public class ReturnSaleRepository extends Database implements Repository<ReturnS
 
         //confirm is sale id is in db
         if(salesRepo.findBy(returnSales.getSale().getId()).isPresent()){
-            returnSales.getProduct().setstockCount(returnSales.getProduct().getstockCount()+returnSales.getQuantity());
-            //Update product
-            Optional<Product> prod = productRepo.add(returnSales.getProduct());
-            
-            if(prod.isPresent()){
-                //Insert in sales db
-                sql = "INSERT INTO returnsales (id, productId, salesId , quantity, totalPrice) VALUES (?,?,?,?,?)";
-                inserted = postQuery(sql, returnSales.getId().toString(), returnSales.getProduct().getId().toString(), returnSales.getSale().getId().toString(), returnSales.getQuantity(), returnSales.getProduct().getSellingPrice()*returnSales.getQuantity());
+            //check to make sure the sales have not been return before
+            if(!findBySaleId(returnSales.getSale().getId()).isPresent()){
+                returnSales.getProduct().setstockCount(returnSales.getProduct().getstockCount()+returnSales.getQuantity());
+                //Update product
+                Optional<Product> prod = productRepo.add(returnSales.getProduct());
+                
+                if(prod.isPresent()){
+                    //Insert in sales db
+                    sql = "INSERT INTO returnsales (id, productId, salesId , quantity, totalPrice) VALUES (?,?,?,?,?)";
+                    inserted = postQuery(sql, returnSales.getId().toString(), returnSales.getProduct().getId().toString(), returnSales.getSale().getId().toString(), returnSales.getQuantity(), returnSales.getProduct().getSellingPrice()*returnSales.getQuantity());
+                }
+            }else{
+                System.out.println("\nSale has been returned before.");
             }
         }else{
             System.out.println("\nSales information not found");
@@ -75,7 +80,17 @@ public class ReturnSaleRepository extends Database implements Repository<ReturnS
     @Override
     public Optional<ReturnSales> findBy(UUID id) {
         try {
-            String sql = "SELECT * FROM returnsales WHERE sales.id = ?";
+            String sql = "SELECT * FROM returnsales WHERE returnsales.id = ?";
+            return this.fetch(sql, id.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return Optional.empty();
+    }
+
+    public Optional<ReturnSales> findBySaleId(UUID id) {
+        try {
+            String sql = "SELECT * FROM returnsales WHERE returnsales.salesId = ?";
             return this.fetch(sql, id.toString());
         } catch (Exception e) {
             e.printStackTrace();
@@ -88,7 +103,7 @@ public class ReturnSaleRepository extends Database implements Repository<ReturnS
         Optional<ReturnSales> rsale = findBy(id);
         if(rsale.isPresent()){
             try {
-                String sql = "DELETE FROM returnsales WHERE sales.id = ?";
+                String sql = "DELETE FROM returnsales WHERE returnsales.id = ?";
                 int result = postQuery(sql, id.toString());
                 if (result != -1 && result > 0){
                     return rsale;

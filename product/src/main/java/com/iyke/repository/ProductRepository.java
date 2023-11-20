@@ -23,7 +23,10 @@ public class ProductRepository extends Database implements Repository<Product, U
             sql = "UPDATE product SET name=?, category=?, sellingPrice=?, costPrice=?, stockCount=?, manufacturer=?";
             inserted = postQuery(sql, product.getName(), product.getCategory(), product.getSellingPrice(), product.getCostPrice(), product.getstockCount(), product.getManufacturer());
         }else{
-            if(findByName(product.getName()).isPresent() && findByCategory(product.getCategory()).isPresent() && findByManufacturer(product.getManufacturer()).isPresent()){
+            if(findByName(product.getName()) != null && findByCategory(product.getCategory()) != null  && findByManufacturer(product.getManufacturer()) != null ){
+                // System.out.println("name: "+findByName(product.getName()));
+                // System.out.println("product: "+findByCategory(product.getCategory()));
+                // System.out.println("Manufacturer: "+findByManufacturer(product.getManufacturer()));
                 System.out.println("\nProduct Exist and can't be entered twice. Product id: "+ product.getId());
             }else{
                 sql = "INSERT INTO product (id, name, category, sellingPrice, costPrice, stockCount, manufacturer) VALUES (?,?,?,?,?,?,?)";
@@ -39,11 +42,11 @@ public class ProductRepository extends Database implements Repository<Product, U
     public List<Product> getAll() {
         List<Product> list = new ArrayList<>();
         try {
-            String sql = "SELECT * FROM product;";
+            String sql = "SELECT * FROM product";
             resultSet = getQuery(sql);
             while (resultSet.next()) {
                 Product product = new Product();
-
+        
                 product.setId(UUID.fromString(resultSet.getString(1)));
                 product.setName(resultSet.getString(2));
                 product.setCategory(resultSet.getString(3));
@@ -81,7 +84,7 @@ public class ProductRepository extends Database implements Repository<Product, U
             String sql = "DELETE FROM product WHERE product.id = ?";
             int result = postQuery(sql, id.toString());
             if (result != -1 && result > 0) {
-            return product;
+                return product;
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -91,38 +94,37 @@ public class ProductRepository extends Database implements Repository<Product, U
     }
 
     //find by name
-    public Optional<Product> findByName(String name) {
+    public List<Product> findByName(String name) {
         try {
           String sql = "SELECT * FROM product WHERE product.name = ?";
-          return this.fetch(sql, name);
+          return this.fetchList(sql , name);
         } catch (Exception e) {
           e.printStackTrace();
         }
-        return Optional.empty();
+        return null;
     }
 
     //find by category 
-    public Optional<Product> findByCategory(String category) {
+    public List<Product> findByCategory(String category) {
         try {
           String sql = "SELECT * FROM product WHERE product.category = ?";
-          return this.fetch(sql, category);
+          return this.fetchList(sql, category);
         } catch (Exception e) {
           e.printStackTrace();
         }
-        return Optional.empty();
+        return null;
     }
 
     //find by manufacturer
-    public Optional<Product> findByManufacturer(String manufacturer) {
+    public List<Product> findByManufacturer(String manufacturer) {
         try {
           String sql = "SELECT * FROM product WHERE product.manufacturer = ?";
-          return this.fetch(sql, manufacturer);
+          return this.fetchList(sql, manufacturer);
         } catch (Exception e) {
           e.printStackTrace();
         }
-        return Optional.empty();
+        return null;
     }
-
 
     //fetch
     private Optional<Product> fetch(String sql, Object value) throws SQLException {
@@ -143,6 +145,28 @@ public class ProductRepository extends Database implements Repository<Product, U
           return Optional.ofNullable(product);
         }
         return Optional.empty();
-      }
+    }
+
+    //fetch list
+    private List<Product> fetchList(String sql, Object value) throws SQLException {
+        List<Product> list = new ArrayList<>();
+        resultSet = getQuery(sql, value.toString());
+        while (resultSet.next()) {
+            Product product = new Product();
+    
+            product.setId(UUID.fromString(resultSet.getString(1)));
+            product.setName(resultSet.getString(2));
+            product.setCategory(resultSet.getString(3));
+            product.setSellingPrice(resultSet.getDouble(4));
+            product.setCostPrice(resultSet.getDouble(5));
+            product.setstockCount(resultSet.getInt(6));
+            product.setManufacturer(resultSet.getString(7));
+            product.setCreated(resultSet.getDate(8));
+            product.setUpdated(resultSet.getDate(9));
+            
+            list.add(product);
+        }
+        return list;
+    }
     
 }
