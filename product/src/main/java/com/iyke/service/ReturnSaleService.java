@@ -10,35 +10,35 @@ import com.iyke.repository.ReturnSaleRepository;
 
 public class ReturnSaleService implements ServiceContract<ReturnSales, UUID> {
 
-    private ReturnSaleRepository repo;
+  private ReturnSaleRepository repo;
 
-    public ReturnSaleService(){
-        repo = new ReturnSaleRepository();
-    }
+  public ReturnSaleService() {
+    repo = new ReturnSaleRepository();
+  }
 
-    @Override
-    public Optional<ReturnSales> create(ReturnSales rsale) {
-        return repo.add(rsale);
-    }
+  @Override
+  public Optional<ReturnSales> create(ReturnSales rsale) {
+    return repo.add(rsale);
+  }
 
-    @Override
-    public List<ReturnSales> getAll() {
-        return repo.getAll();
-    }
+  @Override
+  public List<ReturnSales> getAll() {
+    return repo.getAll();
+  }
 
-    @Override
-    public Optional<ReturnSales> findBy(UUID id) {
-        return repo.findBy(id);
-    }
+  @Override
+  public Optional<ReturnSales> findBy(UUID id) {
+    return repo.findBy(id);
+  }
 
-    @Override
-    public Optional<ReturnSales> update(UUID id, ReturnSales value) {
-        return null;
-    }
+  @Override
+  public Optional<ReturnSales> update(UUID id, ReturnSales value) {
+    return null;
+  }
 
-    @Override
-    public Optional<ReturnSales> delete(UUID id) {
-        return null;
-    }
-    
+  @Override
+  public Optional<ReturnSales> delete(UUID id) {
+    return null;
+  }
+
 }

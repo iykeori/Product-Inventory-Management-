@@ -10,35 +10,35 @@ import com.iyke.repository.SalesRepository;
 
 public class SalesService implements ServiceContract<Sales, UUID> {
 
-    private SalesRepository repo;
+  private SalesRepository repo;
 
-    public SalesService(){
-        this.repo = new SalesRepository();
-    }
+  public SalesService() {
+    this.repo = new SalesRepository();
+  }
 
-    @Override
-    public Optional<Sales> create(Sales sales) {
-        return repo.add(sales);
-    }
+  @Override
+  public Optional<Sales> create(Sales sales) {
+    return repo.add(sales);
+  }
 
-    @Override
-    public List<Sales> getAll() {
-        return repo.getAll();
-    }
+  @Override
+  public List<Sales> getAll() {
+    return repo.getAll();
+  }
 
-    @Override
-    public Optional<Sales> findBy(UUID id) {
-        return repo.findBy(id);
-    }
+  @Override
+  public Optional<Sales> findBy(UUID id) {
+    return repo.findBy(id);
+  }
 
-    @Override
-    public Optional<Sales> update(UUID id, Sales value) {
-        return null;
-    }
+  @Override
+  public Optional<Sales> update(UUID id, Sales value) {
+    return null;
+  }
 
-    @Override
-    public Optional<Sales> delete(UUID id) {
-        return null;
-    }
-    
+  @Override
+  public Optional<Sales> delete(UUID id) {
+    return null;
+  }
+
 }

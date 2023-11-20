@@ -10,9 +10,9 @@ CREATE TABLE product (
     sellingPrice    DECIMAL(18, 2) NOT NULL,
     costPrice       DECIMAL(18, 2) NOT NULL,
     stockCount      BIGINT NOT NULL,
-    manufacturer     VARCHAR(100) NOT NULL,
-    created			DATETIME NOT NULL,
-    updated			 DATETIME DEFAULT NULL
+    manufacturer    VARCHAR(100) NOT NULL,
+    created			    DATETIME NOT NULL,
+    updated			    DATETIME DEFAULT NULL
 );
 
 CREATE TABLE sales (
@@ -20,8 +20,8 @@ CREATE TABLE sales (
     productId       VARCHAR(55) NOT NULL,
     quantity        INT NOT NULL,
     totalPrice      DECIMAL(18, 2) NOT NULL,
-    created			DATETIME NOT NULL,
-    updated			DATETIME DEFAULT NULL,
+    created			    DATETIME NOT NULL,
+    updated			    DATETIME DEFAULT NULL,
 
     FOREIGN KEY (productId) REFERENCES product (id) ON UPDATE CASCADE
 );
@@ -32,8 +32,8 @@ CREATE TABLE returnsales (
     salesId         VARCHAR(55) NOT NULL,
     quantity        INT NOT NULL,
     totalPrice      DECIMAL(18, 2) NOT NULL,
-    created			DATETIME NOT NULL,
-    updated			 DATETIME DEFAULT NULL,
+    created			    DATETIME NOT NULL,
+    updated			    DATETIME DEFAULT NULL,
 
     FOREIGN KEY (productId) REFERENCES product (id) ON UPDATE CASCADE,
     FOREIGN KEY (salesId ) REFERENCES sales (id) ON UPDATE CASCADE
