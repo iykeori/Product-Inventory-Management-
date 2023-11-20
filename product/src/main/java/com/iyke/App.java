@@ -55,7 +55,7 @@ public class App {
         Sales sale = new Sales();
 
         sale.setId(UUID.randomUUID());
-        sale.setProduct(ps.findBy(UUID.fromString("42cda316-1b4b-4306-8cfc-6c7c79502f47")).get());
+        sale.setProduct(ps.findBy(UUID.fromString("7f15efa2-2645-4564-93c0-223962703e88")).get());
         sale.setQuantity(50);
 
         Optional<Sales> createdSale = ss.create(sale);
@@ -73,8 +73,8 @@ public class App {
         ReturnSales rsale = new ReturnSales();
 
         rsale.setId(UUID.randomUUID());
-        rsale.setProduct(ps.findBy(UUID.fromString("42cda316-1b4b-4306-8cfc-6c7c79502f47")).get());
-        rsale.setSale(ss.findBy(UUID.fromString("28317cec-035c-46f2-a960-9cccca470baf")).get());
+        rsale.setProduct(ps.findBy(UUID.fromString("7f15efa2-2645-4564-93c0-223962703e88")).get());
+        rsale.setSale(ss.findBy(UUID.fromString("a3688fc4-bfaf-4f53-b8c6-7effd52c9e28")).get());
         rsale.setQuantity(50);
 
         Optional<ReturnSales> createdRSale = rs.create(rsale);
@@ -100,10 +100,11 @@ public class App {
         System.out.println("\nTotal Sales Revenue: "+ ops.totalSalesRevenue());
     }
     public static void main( String[] args ){
-        testProduct();
+        //testProduct();
         //testSales();
-        //testOperations();
         //testReturnSales();
+        testOperations();
+        
         
     }
 }
