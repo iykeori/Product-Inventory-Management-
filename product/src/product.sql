@@ -10,7 +10,7 @@ CREATE TABLE product (
     sellingPrice    DECIMAL(18, 2) NOT NULL,
     costPrice       DECIMAL(18, 2) NOT NULL,
     stockCount      BIGINT NOT NULL,
-    maufacturer     VARCHAR(100) NOT NULL,
+    manufacturer     VARCHAR(100) NOT NULL,
     created			DATETIME NOT NULL,
     updated			 DATETIME DEFAULT NULL
 );
