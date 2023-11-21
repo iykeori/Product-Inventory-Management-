@@ -6,28 +6,27 @@ import java.util.List;
 import com.iyke.bean.Product;
 import com.iyke.bean.ReturnSales;
 import com.iyke.bean.Sales;
-import com.iyke.repository.ProductRepository;
-import com.iyke.repository.ReturnSaleRepository;
-import com.iyke.repository.SalesRepository;
+import com.iyke.service.ProductService;
+import com.iyke.service.ReturnSaleService;
+import com.iyke.service.SalesService;
 
 public class Operations {
-
-  private ProductRepository productRepo;
-  private SalesRepository salesRepo;
-  private ReturnSaleRepository returnRepo;
+  private ProductService productService;
+  private SalesService salesService;
+  private ReturnSaleService rService;
 
   public Operations() {
-    productRepo = new ProductRepository();
-    salesRepo = new SalesRepository();
-    returnRepo = new ReturnSaleRepository();
+    productService = new ProductService();
+    salesService = new SalesService();
+    rService = new ReturnSaleService();
   }
 
   // Report on Inventory Balance
   public void inventoryBalReport() {
     List<Product> list = new ArrayList<>();
-    list = productRepo.getAll();
+    list = productService.getAll();
     // check if list from db is empty
-    if (list != null) {
+    if (list.size() != 0) {
       int count = 0;
       // loop through list
       for (Product product : list) {
@@ -42,9 +41,9 @@ public class Operations {
   // Report on Sales
   public void salesReport() {
     List<Sales> list = new ArrayList<>();
-    list = salesRepo.getAll();
+    list = salesService.getAll();
     int count = 0;
-    if (list != null) {
+    if (list.size() != 0) {
       for (Sales sales : list) {
         System.out.println(++count + ". Product name:  " + sales.getProduct().getName() + " | Quantity "
             + sales.getQuantity() + " | Price: " + sales.getTotalPrice());
@@ -57,9 +56,9 @@ public class Operations {
   // Report on returnsales
   public void returnSalesReport() {
     List<ReturnSales> list = new ArrayList<>();
-    list = returnRepo.getAll();
+    list = rService.getAll();
     int count = 0;
-    if (list != null) {
+    if (list.size() != 0) {
       for (ReturnSales rsales : list) {
         System.out.println(++count + ". Product name:  " + rsales.getProduct().getName() + " | Quantity "
             + rsales.getQuantity() + " | Price: " + rsales.getTotalPrice());
@@ -72,9 +71,9 @@ public class Operations {
   // Report on Total revenue
   public Double totalSalesRevenue() {
     List<Sales> list = new ArrayList<>();
-    list = salesRepo.getAll();
+    list = salesService.getAll();
     double totalSalesPrice = 0.0;
-    if (list != null) {
+    if (list.size() != 0) {
       for (Sales sales : list) {
         totalSalesPrice += sales.getTotalPrice();
       }
@@ -87,9 +86,9 @@ public class Operations {
   // Report on actual revenue
   public Double actualSalesRevenue() {
     List<ReturnSales> list = new ArrayList<>();
-    list = returnRepo.getAll();
+    list = rService.getAll();
     double totalReturnSalesPrice = 0.0;
-    if (list != null) {
+    if (list.size() != 0) {
       for (ReturnSales rsales : list) {
         totalReturnSalesPrice += rsales.getTotalPrice();
       }

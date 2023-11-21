@@ -20,13 +20,10 @@ public class ProductRepository extends Database implements Repository<Product, U
     int inserted = -1;
 
     if (findBy(product.getId()).isPresent()) {
-      sql = "UPDATE product SET name=?, category=?, sellingPrice=?, costPrice=?, stockCount=?, manufacturer=?";
-      inserted = postQuery(sql, product.getName(), product.getCategory(), product.getSellingPrice(), product.getCostPrice(), product.getstockCount(), product.getManufacturer());
+      sql = "UPDATE product SET name=?, category=?, sellingPrice=?, costPrice=?, stockCount=?, manufacturer=? WHERE product.id=?";
+      inserted = postQuery(sql, product.getName(), product.getCategory(), product.getSellingPrice(), product.getCostPrice(), product.getstockCount(), product.getManufacturer(), product.getId());
     } else {
-      if(findByName(product.getName()).size() != 0 &&
-        findByCategory(product.getCategory()).size() != 0 &&
-        findByManufacturer(product.getManufacturer()).size() != 0){
-
+      if(findByName(product.getName()).size() != 0 && findByCategory(product.getCategory()).size() != 0 && findByManufacturer(product.getManufacturer()).size() != 0){
         System.out.println("\nProduct Exist and can't be entered twice. Product id:" + product.getId());
 
       }else{

@@ -11,7 +11,7 @@ public abstract class Database {
     //Connection Configurations
     private static final String JDBC_URL = "jdbc:mysql://localhost:3306/inventory";
     private static final String USERNAME = "root";
-    private static final String PASSWORD = "123456.soft";
+    private static final String PASSWORD = "";
 
   //SQL connection object
   private Connection connection;

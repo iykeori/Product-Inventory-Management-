@@ -10,6 +10,7 @@ import java.util.UUID;
 import com.iyke.bean.Product;
 import com.iyke.bean.Sales;
 import com.iyke.db.Database;
+import com.iyke.service.ProductService;
 
 public class SalesRepository extends Database implements Repository<Sales, UUID> {
 
@@ -27,24 +28,22 @@ public class SalesRepository extends Database implements Repository<Sales, UUID>
     Product product = sale.getProduct();
 
     if (product.getstockCount() >= sale.getQuantity()) {
+      sql = "INSERT INTO sales (id, productId, quantity, totalPrice) VALUES (?,?,?,?)";
+      inserted = postQuery(sql, sale.getId().toString(), product.getId().toString(), sale.getQuantity(), product.getSellingPrice() * sale.getQuantity());
 
-      /**
-       * ⚠️ TODO: record sales before updating inventory
-       */
-
-      product.setstockCount(product.getstockCount() - sale.getQuantity());
-      // update product
-      Optional<Product> prod = productRepo.add(product);
-      // check if update was sucessfull before proceeding
-      if (prod.isPresent()) {
-        sql = "INSERT INTO sales (id, productId, quantity, totalPrice) VALUES (?,?,?,?)";
-        inserted = postQuery(sql, sale.getId().toString(), product.getId().toString(), sale.getQuantity(), product.getSellingPrice() * sale.getQuantity());
+      if (inserted != -1){
+        //substracting from stock count
+        product.setstockCount(product.getstockCount() - sale.getQuantity());
+        // update product
+        Optional<Product> prod = productRepo.add(product);
+        // check if update was sucessfull before proceeding
+        if (prod.isPresent()) {
+          return Optional.ofNullable(findBy(sale.getId()).get());
+        }
       }
     } else {
       System.out.println("\nQuantity of Product remaining: " + product.getstockCount());
     }
-    if (inserted != -1)
-      return Optional.ofNullable(findBy(sale.getId()).get());
 
     return Optional.empty();
 
