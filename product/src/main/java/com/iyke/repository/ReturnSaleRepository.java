@@ -31,23 +31,18 @@ public class ReturnSaleRepository extends Database implements Repository<ReturnS
     if (salesRepo.findBy(returnSales.getSale().getId()).isPresent()) {
       // check to make sure the sales have not been return before
       if (!findBySaleId(returnSales.getSale().getId()).isPresent()) {
-        /**
-         * ⚠️ TODO: record returned sales before updating inventory
-         */
-
-
         Product product = returnSales.getProduct();//get the sold product
-
-        //set stock count
-        product.setstockCount(product.getstockCount() + returnSales.getQuantity());
-
-        // Update product inventory
-        Optional<Product> prod = productRepo.add(product);
-
-        if (prod.isPresent()) {
-          // Insert in sales db
-          sql = "INSERT INTO returnsales (id, productId, salesId , quantity, totalPrice) VALUES (?,?,?,?,?)";
-          inserted = postQuery(sql, returnSales.getId().toString(), product.getId().toString(), returnSales.getSale().getId().toString(), returnSales.getQuantity(), product.getSellingPrice() * returnSales.getQuantity());
+        // Insert in sales db
+        sql = "INSERT INTO returnsales (id, productId, salesId , quantity, totalPrice) VALUES (?,?,?,?,?)";
+        inserted = postQuery(sql, returnSales.getId().toString(), product.getId().toString(), returnSales.getSale().getId().toString(), returnSales.getQuantity(), product.getSellingPrice() * returnSales.getQuantity());
+        if (inserted != -1){
+          //set stock count
+          product.setstockCount(product.getstockCount() + returnSales.getQuantity());
+          // Update product inventory
+          Optional<Product> prod = productRepo.add(product);
+          if (prod.isPresent()) {
+            return Optional.ofNullable(findBy(returnSales.getId()).get());
+          }
         }
       } else {
         System.out.println("\nSale has been returned before.");
@@ -55,9 +50,6 @@ public class ReturnSaleRepository extends Database implements Repository<ReturnS
     } else {
       System.out.println("\nSales information not found");
     }
-
-    if (inserted != -1)
-      return Optional.ofNullable(findBy(returnSales.getId()).get());
 
     return Optional.empty();
   }
