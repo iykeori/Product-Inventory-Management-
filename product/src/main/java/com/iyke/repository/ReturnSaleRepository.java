@@ -35,7 +35,7 @@ public class ReturnSaleRepository extends Database implements Repository<ReturnS
         // Insert in sales db
         sql = "INSERT INTO returnsales (id, productId, salesId , quantity, totalPrice) VALUES (?,?,?,?,?)";
         inserted = postQuery(sql, returnSales.getId().toString(), product.getId().toString(), returnSales.getSale().getId().toString(), returnSales.getQuantity(), product.getSellingPrice() * returnSales.getQuantity());
-        if (inserted != -1){
+        if (inserted != -1 && inserted > 0){
           //set stock count
           product.setstockCount(product.getstockCount() + returnSales.getQuantity());
           // Update product inventory

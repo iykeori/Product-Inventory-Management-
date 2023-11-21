@@ -23,15 +23,13 @@ public class Operations {
 
   // Report on Inventory Balance
   public void inventoryBalReport() {
-    List<Product> list = new ArrayList<>();
-    list = productService.getAll();
+    List<Product> list = productService.getAll();
     // check if list from db is empty
     if (list.size() != 0) {
       int count = 0;
       // loop through list
       for (Product product : list) {
-        System.out.println(++count + ". Product name:  " + product.getName() + " | Stock Count: "
-            + product.getstockCount() + " | Total Price: " + product.getstockCount() * product.getCostPrice());
+        System.out.println(++count + ". Product name:  " + product.getName() + " | Stock Count: " + product.getstockCount() + " | Total Price: " + product.getstockCount() * product.getCostPrice());
       }
     } else {
       System.out.println("Inventory Report is empty");
@@ -40,13 +38,11 @@ public class Operations {
 
   // Report on Sales
   public void salesReport() {
-    List<Sales> list = new ArrayList<>();
-    list = salesService.getAll();
+    List<Sales> list = salesService.getAll();
     int count = 0;
     if (list.size() != 0) {
       for (Sales sales : list) {
-        System.out.println(++count + ". Product name:  " + sales.getProduct().getName() + " | Quantity "
-            + sales.getQuantity() + " | Price: " + sales.getTotalPrice());
+        System.out.println(++count + ". Product name:  " + sales.getProduct().getName() + " | Quantity " + sales.getQuantity() + " | Price: " + sales.getTotalPrice());
       }
     } else {
       System.out.println("Sales Report is empty");
@@ -55,13 +51,11 @@ public class Operations {
 
   // Report on returnsales
   public void returnSalesReport() {
-    List<ReturnSales> list = new ArrayList<>();
-    list = rService.getAll();
+    List<ReturnSales> list = rService.getAll();
     int count = 0;
     if (list.size() != 0) {
       for (ReturnSales rsales : list) {
-        System.out.println(++count + ". Product name:  " + rsales.getProduct().getName() + " | Quantity "
-            + rsales.getQuantity() + " | Price: " + rsales.getTotalPrice());
+        System.out.println(++count + ". Product name:  " + rsales.getProduct().getName() + " | Quantity " + rsales.getQuantity() + " | Price: " + rsales.getTotalPrice());
       }
     } else {
       System.out.println("Return Sales Report is empty");
@@ -70,8 +64,7 @@ public class Operations {
 
   // Report on Total revenue
   public Double totalSalesRevenue() {
-    List<Sales> list = new ArrayList<>();
-    list = salesService.getAll();
+    List<Sales> list = salesService.getAll();
     double totalSalesPrice = 0.0;
     if (list.size() != 0) {
       for (Sales sales : list) {
@@ -85,8 +78,7 @@ public class Operations {
 
   // Report on actual revenue
   public Double actualSalesRevenue() {
-    List<ReturnSales> list = new ArrayList<>();
-    list = rService.getAll();
+    List<ReturnSales> list = rService.getAll();
     double totalReturnSalesPrice = 0.0;
     if (list.size() != 0) {
       for (ReturnSales rsales : list) {
